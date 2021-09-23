@@ -1,0 +1,28 @@
+name: WorkManager
+version: '${project.version}'
+main: me.nexcreep.workmanager.Main
+api-version: 1.17
+prefix: workmanager
+authors: [ NexCreep ]
+description: A plugin that manage work in a spigot server
+website: https://nexcreep.es/
+commands:
+  join:
+    description: Este comando te permite unirte a un trabajo temporal
+    usage: Minero | Pescador | Lenador | Explorador | Nexplorador | Granjero
+    permission: WorkManager.joinWork
+
+  leave:
+    description: Este comando hace que abandones un trabajo (Sin recompensa).
+    permission: WorkManager.leaveWork
+
+  finnish:
+    description: Este comando te permite finalizar un trabajo. Te quita los items.
+    usage: /<command>
+    permission: WorkManager.finnishWork
+
+  test:
+    description: Test
+    usage: /<command>
+    permission: Wormanager.test
+database: true
