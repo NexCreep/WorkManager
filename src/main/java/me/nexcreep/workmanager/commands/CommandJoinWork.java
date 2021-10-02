@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CommandJoinWork implements CommandExecutor {
     Main plugin;
@@ -26,10 +25,24 @@ public class CommandJoinWork implements CommandExecutor {
     }
 
     public boolean workSelection(String workname, Player player){
-        if (workname.equals(plugin.minerWork.nameWork)){
-            boolean r = plugin.minerWork.join(player);
-            log.debug(String.format("On work selecction answer %b", r));
-            return r;
+        if (workname.equals(plugin.minerWork.nameWork.toUpperCase())){
+            return plugin.minerWork.join(player);
+
+        }else if (workname.equals(plugin.fisherWork.nameWork.toUpperCase())){
+            return plugin.fisherWork.join(player);
+
+        }else if (workname.equals("LEÑADOR")){
+            return plugin.woodWork.join(player);
+
+        }else if (workname.equals(plugin.nthExplorerWork.nameWork.toUpperCase())){
+            return plugin.nthExplorerWork.join(player);
+
+        }else if (workname.equals(plugin.farmerWork.nameWork.toUpperCase())){
+            return plugin.farmerWork.join(player);
+
+        }else if (workname.equals(plugin.explorerWork.nameWork.toUpperCase())){
+            return plugin.explorerWork.join(player);
+
         }
         return false;
     }
@@ -42,7 +55,7 @@ public class CommandJoinWork implements CommandExecutor {
                 if (works.contains(args[0])){
                     log.debug("Pre work selection");
 
-                    if (!workSelection(args[0], playerSender)){
+                    if (!workSelection(args[0].toUpperCase(), playerSender)){
                         log.debug("Post work selection NEGATIVE");
                         playerSender.sendMessage("§cYa te encuentras dentro de un trabajo.");
                         playerSender.sendMessage("§6Utiliza /leave para abandonarlo o /finish para terminarlo.");

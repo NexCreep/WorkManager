@@ -3,6 +3,7 @@ package me.nexcreep.workmanager.Works;
 import me.nexcreep.workmanager.Database.Query;
 import me.nexcreep.workmanager.Logger;
 import me.nexcreep.workmanager.Main;
+import me.nexcreep.workmanager.commands.RandomNum;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 public class MinerWork {
     public String idWork = "MW";
     public String nameWork = "Minero";
+    public String action = "minar";
+    public int maxAmount = 128;
     String colorCode = "§b";
     Integer reward = 8;
     Player playerWorker;
@@ -19,6 +22,7 @@ public class MinerWork {
     Main plugin;
     Query exec;
     Logger log;
+    RandomNum random;
     HashMap<Integer, Material> materialsId;
     HashMap<Integer, String> materialsTrans;
 
@@ -29,8 +33,9 @@ public class MinerWork {
         if (!exec.insertWork(idWork, nameWork)){
             log.error(String.format("It couldn't insert the work %s",nameWork.toUpperCase()));
         }
-        materialsId = new HashMap<Integer, Material>();
-        materialsTrans = new HashMap<Integer, String>();
+
+        materialsId = new HashMap<>();
+        materialsTrans = new HashMap<>();
 
         materialsId.put(1, Material.COAL);
         materialsId.put(2, Material.RAW_IRON);
@@ -54,18 +59,8 @@ public class MinerWork {
         materialsTrans.put(9, "Lapis lazuli");
         materialsTrans.put(10, "Polvo de redstone");
 
+        random = new RandomNum();
 
-
-    }
-
-    public int setAmount(){
-        int randomAmount = (int)Math.floor(Math.random()*(127+1)+32);
-        return randomAmount;
-    }
-
-    public int setMaterial(){
-        int randomMaterial = (int)Math.floor(Math.random()*(9+1)+1);
-        return randomMaterial;
     }
 
     public boolean join(Player player){
@@ -75,15 +70,14 @@ public class MinerWork {
             return false;
         }
             if (!exec.hasWork(player.getUniqueId())){
-                int amount = setAmount();
-                System.out.println(amount);
-                int idMaterial = setMaterial();
-                System.out.println(idMaterial);
+                int amount = random.setAmount(maxAmount);
+                int idMaterial = random.setMaterial(materialsId.size());
+
                 if (!exec.linkplayerToWork(player.getUniqueId(), idWork, amount, idMaterial)){
                     return false;
                 }
                 player.sendMessage(String.format("§6Has entrado como %s%s (id: %s).", colorCode, nameWork, idWork));
-                player.sendMessage(String.format("§6Se te ha asignado minar §b%s §rde §b%s.", amount, materialsTrans.get(idMaterial).toString()));
+                player.sendMessage(String.format("§6Se te ha asignado %s §b%s §rde §b%s.", action, amount, materialsTrans.get(idMaterial)));
                 return true;
             }
         return false;
