@@ -229,7 +229,7 @@ public class Query {
                     result[1] = String.valueOf(r.getInt(2));
                     result[2] = String.valueOf(r.getInt(3));
                 }
-                System.out.println(Arrays.toString(result));
+                plugin.log.debug(Arrays.toString(result));
                 return result;
 
             } catch (SQLException e) {

@@ -66,7 +66,7 @@ public class CommandFinnishWork implements CommandExecutor {
                     if (exec.delinkPlayerToWork(playerSender.getUniqueId())){
                         if (hasSpace(inv)){
                             inv.addItem(new ItemStack(Material.EMERALD, 8));
-                            playerSender.playSound(playerSender.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3.0F, 0.5F);
+                            playerSender.playSound(playerSender.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3.0F, 1.0F);
                             playerSender.sendMessage("§6¡BUEN TRABAJO!");
                             playerSender.sendMessage(String.format("§6Has terminado tu trabajo de %s%s§6 con exito.", wColor, wName));
                         }else {

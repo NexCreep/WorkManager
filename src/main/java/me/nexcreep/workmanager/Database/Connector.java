@@ -46,7 +46,7 @@ public class Connector {
     public void connect() throws ClassNotFoundException, SQLException{
         if (!isConnected()){
             if (config.getBoolean("dbms.useJDBC")){
-                connection = DriverManager.getConnection(jdbcUrl, user, password);
+                connection = DriverManager.getConnection(String.format("%s", jdbcUrl));
             }else {
                 String link = String.format("jdbc:mysql://%s:%s/%s?useSSL=%s&allowPublicKeyRetrieval=%s", host, port, db, SSL, APKR);
                 connection = DriverManager.getConnection(link, user, password);
