@@ -11,11 +11,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 
 public class ExplorerWork {
-    public String idWork = "EW";
-    public String nameWork = "Explorador";
-    public String action = "encontrar";
-    public int maxAmount = 25;
-    String colorCode = "§9";
+    public static final String idWork = "EW";
+    public static final String nameWork = "Explorador";
+    public static final String action = "encontrar";
+    public static final int maxAmount = 25;
+    public static final String colorCode = "§9";
+    public static HashMap<Integer, Material> materialsId;
+    public static HashMap<Integer, String> materialsTrans;
     Integer reward = 8;
     Player playerWorker;
     Inventory playerInv;
@@ -23,8 +25,6 @@ public class ExplorerWork {
     Query exec;
     Logger log;
     RandomNum random;
-    HashMap<Integer, Material> materialsId;
-    HashMap<Integer, String> materialsTrans;
 
     public ExplorerWork(Main plugin){
         this.plugin = plugin;
@@ -50,25 +50,5 @@ public class ExplorerWork {
         materialsTrans.put(5, "Perla de Ender");
 
         random = new RandomNum();
-    }
-
-    public boolean join(Player player){
-        log.debug("On join work no query");
-        if (!plugin.conn.isConnected()){
-            player.sendMessage("No se ha podido unir a el trabajo (Posible ERROR MySQL-2003)");
-            return false;
-        }
-        if (!exec.hasWork(player.getUniqueId())){
-            int amount = random.setAmount(maxAmount);
-            int idMaterial = random.setMaterial(materialsId.size());
-
-            if (!exec.linkplayerToWork(player.getUniqueId(), idWork, amount, idMaterial)){
-                return false;
-            }
-            player.sendMessage(String.format("§6Has entrado como %s%s (id: %s).", colorCode, nameWork, idWork));
-            player.sendMessage(String.format("§6Se te ha asignado %s §b%s §rde §b%s.", action, amount, materialsTrans.get(idMaterial)));
-            return true;
-        }
-        return false;
     }
 }

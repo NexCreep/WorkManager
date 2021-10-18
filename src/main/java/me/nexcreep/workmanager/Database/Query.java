@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 public class Query {
     private Main plugin;
@@ -212,5 +211,31 @@ public class Query {
             }
         }
         return false;
+    }
+
+    public String[] getCurrentPlayerWork(UUID uuid){
+        if (hasWork(uuid)){
+            plugin.log.debug("On getting work query");
+            try{
+                PreparedStatement getWork = plugin.conn.getConnection().prepareStatement("SELECT wwid,amount,material FROM playerwork" +
+                        " WHERE uuid=?");
+                getWork.setString(1, uuid.toString());
+                ResultSet r = getWork.executeQuery();
+
+                String[] result = new String[3];
+
+                if (r.next()){
+                    result[0] = r.getString(1);
+                    result[1] = String.valueOf(r.getInt(2));
+                    result[2] = String.valueOf(r.getInt(3));
+                }
+                System.out.println(Arrays.toString(result));
+                return result;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

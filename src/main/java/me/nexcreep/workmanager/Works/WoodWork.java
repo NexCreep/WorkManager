@@ -11,11 +11,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 
 public class WoodWork {
-    public String idWork = "LW";
-    public String nameWork = "Lenador";
-    public String action = "talar";
-    public int maxAmount = 512;
-    String colorCode = "§c";
+    public static final String idWork = "LW";
+    public static final String nameWork = "Talador";
+    public static final String action = "talar";
+    public static final int maxAmount = 512;
+    public static final String colorCode = "§c";
+    public static HashMap<Integer, Material> materialsId;
+    public static HashMap<Integer, String> materialsTrans;
     Integer reward = 8;
     Player playerWorker;
     Inventory playerInv;
@@ -23,8 +25,6 @@ public class WoodWork {
     Query exec;
     Logger log;
     RandomNum random;
-    HashMap<Integer, Material> materialsId;
-    HashMap<Integer, String> materialsTrans;
 
     public WoodWork(Main plugin){
         this.plugin = plugin;
@@ -57,25 +57,5 @@ public class WoodWork {
 
         random = new RandomNum();
 
-    }
-
-    public boolean join(Player player){
-        log.debug("On join work no query");
-        if (!plugin.conn.isConnected()){
-            player.sendMessage("No se ha podido unir a el trabajo (Posible ERROR MySQL-2003)");
-            return false;
-        }
-        if (!exec.hasWork(player.getUniqueId())){
-            int amount = random.setAmount(maxAmount);
-            int idMaterial = random.setMaterial(materialsId.size());
-
-            if (!exec.linkplayerToWork(player.getUniqueId(), idWork, amount, idMaterial)){
-                return false;
-            }
-            player.sendMessage(String.format("§6Has entrado como %s%s (id: %s).", colorCode, nameWork, idWork));
-            player.sendMessage(String.format("§6Se te ha asignado %s §b%s §rde §b%s.", action, amount, materialsTrans.get(idMaterial)));
-            return true;
-        }
-        return false;
     }
 }

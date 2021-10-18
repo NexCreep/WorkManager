@@ -1,6 +1,7 @@
 package me.nexcreep.workmanager;
 
 import me.nexcreep.workmanager.Database.Connector;
+import me.nexcreep.workmanager.commands.CommandCurrentWork;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,10 +11,11 @@ import java.util.UUID;
 
 public class Events implements Listener {
     private Main plugin;
-    Logger log = new Logger();
+    Logger log;
 
     public Events(Main plugin){
         this.plugin = plugin;
+        log = this.plugin.log;
     }
 
     @EventHandler
@@ -25,6 +27,8 @@ public class Events implements Listener {
                 UUID uuid = p.getUniqueId();
                 log.info(String.format("Created user %s (%s)", uuid.toString(), p.getName()));
             }
+            CommandCurrentWork c = new CommandCurrentWork(plugin);
+            c.getWork(p);
         }
     }
 }

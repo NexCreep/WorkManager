@@ -1,6 +1,14 @@
 package me.nexcreep.workmanager;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 public class Logger {
+    FileConfiguration config;
+
+    public Logger(Main plugin){
+        plugin.reloadConfig();
+        config = plugin.getConfig();
+    }
 
     private static final String plugin = "Work Manager";
 
@@ -14,7 +22,9 @@ public class Logger {
     }
     public void debug(String text){
         String flog = String.format("[%s/DEBUG] %s",plugin ,text);
-        System.out.println(flog);
+        if (config.getBoolean("Debug-sout")){
+            System.out.println(flog);
+        }
     }
 
 }

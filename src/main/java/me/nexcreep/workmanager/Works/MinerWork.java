@@ -11,11 +11,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 
 public class MinerWork {
-    public String idWork = "MW";
-    public String nameWork = "Minero";
-    public String action = "minar";
-    public int maxAmount = 128;
-    String colorCode = "§b";
+    public static final String idWork = "MW";
+    public static final String nameWork = "Minero";
+    public static final String action = "minar";
+    public static final int maxAmount = 128;
+    public static final String colorCode = "§b";
+    public static HashMap<Integer, Material> materialsId;
+    public static HashMap<Integer, String> materialsTrans;
     Integer reward = 8;
     Player playerWorker;
     Inventory playerInv;
@@ -23,8 +25,6 @@ public class MinerWork {
     Query exec;
     Logger log;
     RandomNum random;
-    HashMap<Integer, Material> materialsId;
-    HashMap<Integer, String> materialsTrans;
 
     public MinerWork(Main plugin){
         this.plugin = plugin;
@@ -61,26 +61,6 @@ public class MinerWork {
 
         random = new RandomNum();
 
-    }
-
-    public boolean join(Player player){
-        log.debug("On join work no query");
-        if (!plugin.conn.isConnected()){
-            player.sendMessage("No se ha podido unir a el trabajo (Posible ERROR MySQL-2003)");
-            return false;
-        }
-            if (!exec.hasWork(player.getUniqueId())){
-                int amount = random.setAmount(maxAmount);
-                int idMaterial = random.setMaterial(materialsId.size());
-
-                if (!exec.linkplayerToWork(player.getUniqueId(), idWork, amount, idMaterial)){
-                    return false;
-                }
-                player.sendMessage(String.format("§6Has entrado como %s%s (id: %s).", colorCode, nameWork, idWork));
-                player.sendMessage(String.format("§6Se te ha asignado %s §b%s §rde §b%s.", action, amount, materialsTrans.get(idMaterial)));
-                return true;
-            }
-        return false;
     }
 
 }

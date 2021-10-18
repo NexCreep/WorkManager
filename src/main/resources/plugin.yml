@@ -9,7 +9,7 @@ website: https://nexcreep.es/
 commands:
   join:
     description: Este comando te permite unirte a un trabajo temporal
-    usage: Minero | Pescador | Lenador | Explorador | Nexplorador | Granjero
+    usage: /<command> [Minero|Pescador|Lenador|Explorador|Nexplorador|Granjero]
     permission: WorkManager.joinWork
 
   leave:
@@ -21,8 +21,8 @@ commands:
     usage: /<command>
     permission: WorkManager.finnishWork
 
-  test:
-    description: Test
+  current:
+    description: Este comado te indica el trabajo en el que estas actualmente
     usage: /<command>
-    permission: Wormanager.test
+    permission: Wormanager.currentWork
 database: true

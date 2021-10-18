@@ -1,0 +1,17 @@
+#It is false, not show debug info.
+Debug-sout: false
+#Database config (Compatible with mysql)
+dbms:
+  host: '127.0.0.1'
+  port: '3306'
+  database: 'workermanager'
+  allowPublicKeyRetrieval: 'true'
+  useSSL: 'false'
+  #You may change below options in your DBMS (insecure credentials!)
+  user: 'spigot'
+  password: 'spigot'
+  #You must specify login credentials above this line.
+  useJDBC: true
+  url: 'jdbc:mysql://127.0.0.1:3306/workermanager?useSSL=false&allowPublicKeyRetrieval=true'
+
+

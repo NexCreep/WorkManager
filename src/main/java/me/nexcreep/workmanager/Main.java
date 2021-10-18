@@ -3,16 +3,13 @@ package me.nexcreep.workmanager;
 import me.nexcreep.workmanager.Database.Connector;
 import me.nexcreep.workmanager.Database.Query;
 import me.nexcreep.workmanager.Works.*;
-import me.nexcreep.workmanager.commands.CommandJoinWork;
-import me.nexcreep.workmanager.commands.CommandLeaveWork;
-import me.nexcreep.workmanager.commands.CommandTest;
+import me.nexcreep.workmanager.commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 
 public final class Main extends JavaPlugin {
-    public Logger log = new Logger();
+    public Logger log = new Logger(this);
     public Connector conn;
     public Query cursor;
     public MinerWork minerWork;
@@ -26,9 +23,10 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         log.info("Work Manager is now Enabled");
-
+        log.info("Loading config.yml file");
+        saveDefaultConfig();
         log.info("Connecting to database...");
-        this.conn = new Connector();
+        this.conn = new Connector(this);
         try {
             conn.connect();
         } catch (ClassNotFoundException | SQLException e) {
@@ -56,7 +54,13 @@ public final class Main extends JavaPlugin {
 
             log.info("Loading commands...");
             this.getCommand("join").setExecutor(new CommandJoinWork(this));
+            this.getCommand("join").setTabCompleter(new TabJoinWork(this));
+
             this.getCommand("leave").setExecutor(new CommandLeaveWork(this));
+
+            this.getCommand("current").setExecutor(new CommandCurrentWork(this));
+
+            this.getCommand("finnish").setExecutor(new CommandFinnishWork(this));
             log.info("Commands loaded successfully!");
 
             getServer().getPluginManager().registerEvents(new Events(this), this);
